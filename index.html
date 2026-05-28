@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ontario Commission Tax Calculator 2026 — Federal + Ontario Withholding</title>
+  <meta name="description" content="Calculate federal and Ontario income tax withholding on commission payments for 2026. Includes CPP1, CPP2, EI, TD1X comparison, and marginal rate breakdown.">
+  <link rel="canonical" href="https://www.ontariocommissiontaxcalc.ca/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7744853829365165" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- ─── Header ─────────────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <span class="logo-leaf" aria-hidden="true" style="font-size:1.25em;line-height:1">🍁</span><span>OntarioCommission<span style="font-weight:300">Tax</span>Calc.ca</span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html" class="active">Home</a>
+      <a href="faq.html">FAQ</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ─── Hero ───────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">🇨🇦 Ontario commission withholding calculator</div>
+    <h1>Why Was So Much Tax Taken Off Your Commission?</h1>
+    <p>A large commission cheque can make payroll treat that payment like it repeats all year. That can push withholding higher for this pay period, even if your final tax bill looks different at tax time.</p>
+  </div>
+</section>
+
+<!-- ─── Main ────────────────────────────────────────────────────────────── -->
+<main class="main-content">
+  <div class="content-col">
+
+    <!-- Calculator card -->
+    <div class="calc-card">
+      <div class="calc-header">
+        <h2>Commission Withholding — 2026</h2>
+      </div>
+      <div class="calc-body">
+        <form id="calc-form" novalidate autocomplete="off">
+
+          <div class="form-grid">
+
+            <!-- Annual salary -->
+            <div class="field">
+              <label for="annual-salary">Annual salary / other income</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="annual-salary" min="0" step="1" value="0" inputmode="numeric" aria-describedby="salary-hint">
+              </div>
+              <div class="hint" id="salary-hint">Your base salary or other employment income this year (before this commission)</div>
+            </div>
+
+            <!-- Commission payment -->
+            <div class="field">
+              <label for="commission">Commission payment amount</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="commission" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required>
+              </div>
+              <div class="hint">Gross commission for this specific payment</div>
+            </div>
+
+            <!-- Pay periods -->
+            <div class="field">
+              <label for="pay-periods">Commission payments per year</label>
+              <select id="pay-periods" aria-describedby="pp-hint">
+                <option value="1">1 — Annual</option>
+                <option value="4">4 — Quarterly</option>
+                <option value="12" selected>12 — Monthly</option>
+                <option value="24">24 — Semi-monthly</option>
+                <option value="26">26 — Bi-weekly</option>
+                <option value="52">52 — Weekly</option>
+                <option value="custom">Other (custom)</option>
+              </select>
+              <div class="hint" id="pp-hint">Used to annualize income for tax and prorate CPP exemption</div>
+            </div>
+
+            <!-- Custom pay periods (hidden by default) -->
+            <div class="field" id="custom-periods-row" hidden>
+              <label for="custom-periods">Custom number of payments per year</label>
+              <div class="input-wrap">
+                <input type="number" id="custom-periods" min="1" max="365" step="1" placeholder="e.g. 6" inputmode="numeric" style="padding-left:12px;">
+              </div>
+            </div>
+
+            <!-- TD1X filed -->
+            <div class="field field-full">
+              <label>Have you filed a TD1X?</label>
+              <div class="radio-group">
+                <div>
+                  <input type="radio" id="td1x-no" name="td1x" value="no" checked>
+                  <label for="td1x-no">No — withhold on gross commission</label>
+                </div>
+                <div>
+                  <input type="radio" id="td1x-yes" name="td1x" value="yes">
+                  <label for="td1x-yes">Yes — withhold on net (after expenses)</label>
+                </div>
+              </div>
+              <div class="hint" style="margin-top:4px;">TD1X lets your employer reduce income tax withholding based on deductible employment expenses</div>
+            </div>
+
+            <!-- Expenses (shown only when TD1X = Yes) -->
+            <div class="field field-full" id="expense-row" hidden>
+              <label for="expenses">Claimed expenses this period</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="expenses" min="0" step="0.01" placeholder="0.00" inputmode="decimal">
+              </div>
+              <div class="hint">Employment expenses claimed on your TD1X for this commission payment period. Income tax withholding is reduced — CPP/EI remain on gross.</div>
+            </div>
+
+          </div><!-- /form-grid -->
+
+          <!-- YTD collapsible -->
+          <button type="button" class="ytd-toggle-btn" id="ytd-toggle" aria-expanded="false" aria-controls="ytd-section">
+            ▸ YTD contributions (optional)
+          </button>
+          <div id="ytd-section" class="ytd-section" hidden>
+            <div class="form-grid">
+              <div class="field">
+                <label for="ytd-cpp1">YTD CPP1 paid this year</label>
+                <div class="input-wrap">
+                  <span class="input-prefix">$</span>
+                  <input type="number" id="ytd-cpp1" min="0" step="0.01" value="0" inputmode="decimal">
+                </div>
+                <div class="hint">Default $0 — enter for mid-year accuracy (max $4,230.45)</div>
+              </div>
+              <div class="field">
+                <label for="ytd-cpp2">YTD CPP2 paid this year</label>
+                <div class="input-wrap">
+                  <span class="input-prefix">$</span>
+                  <input type="number" id="ytd-cpp2" min="0" step="0.01" value="0" inputmode="decimal">
+                </div>
+                <div class="hint">Default $0 (max $416.00)</div>
+              </div>
+              <div class="field">
+                <label for="ytd-ei">YTD EI premiums paid this year</label>
+                <div class="input-wrap">
+                  <span class="input-prefix">$</span>
+                  <input type="number" id="ytd-ei" min="0" step="0.01" value="0" inputmode="decimal">
+                </div>
+                <div class="hint">Default $0 (max $1,123.07)</div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-calculate">Calculate Withholding</button>
+
+        </form>
+      </div>
+    </div><!-- /calc-card -->
+
+    <!-- Trust strip -->
+    <div class="disclaimers" role="note" aria-label="Methodology disclosure">
+      <p>This calculator follows CRA payroll withholding methodology for Ontario commission employees using 2026 federal, Ontario, CPP, CPP2, and EI rates.</p>
+      <strong>Methodology</strong>
+      <ul>
+        <li>Uses CRA T4127/T4032 payroll withholding methodology</li>
+        <li>Separates withholding from final annual tax liability</li>
+        <li>Calculates CPP1, CPP2, and EI independently</li>
+        <li>Supports TD1X withholding adjustment scenarios</li>
+        <li>Runs entirely in-browser — no stored financial data</li>
+      </ul>
+      <strong>Important notes:</strong>
+      <ul>
+        <li>This is a withholding estimate, not a final tax return estimate</li>
+        <li>Ontario Health Premium currently excluded</li>
+        <li>Employer CPP/EI portions not included</li>
+        <li>Commission annualization can temporarily inflate withholding relative to your actual annual tax</li>
+      </ul>
+    </div>
+
+    <!-- Results -->
+    <div id="results" hidden aria-live="polite"></div>
+
+    <!-- Understanding Your Result -->
+    <div class="info-section">
+      <h2>Understanding Your Result</h2>
+
+      <h3>Withholding vs. Your Final Tax Bill</h3>
+      <p>The number this calculator shows is what your employer deducts at source — not what you'll ultimately owe CRA. Those two figures are usually different.</p>
+      <p>Commission withholding runs high because payroll rules treat your payment as if it repeats every pay period. A $15,000 quarterly commission gets annualized to $60,000 of commission income on top of your salary — even if it was a one-time payment. Whatever was over-withheld comes back as a refund when you file your T1 in the spring.</p>
+
+      <h3>Effective Rate vs. Marginal Rate</h3>
+      <p>Your marginal rate is the highest rate applied to your last dollar of income. Your effective rate is the actual blended percentage across all your income — almost always lower. On commission income, the gap between these two numbers can be large.</p>
+      <ul>
+        <li><strong>Marginal rate:</strong> reflects the top bracket your annualized income reaches — not the rate on your whole paycheque</li>
+        <li><strong>Effective rate:</strong> what you actually pay across all brackets, averaged over your full annual income</li>
+        <li>Annualization temporarily pushes commission income into higher brackets, which is why the withholding percentage can look so much steeper than your effective rate</li>
+      </ul>
+
+      <h3>CPP1, CPP2, and EI</h3>
+      <p>These three deductions are calculated separately from income tax. Your tax bracket does not affect them.</p>
+      <ul>
+        <li><strong>CPP1</strong> applies to earnings up to the first ceiling ($73,200 in 2026); maximum employee contribution is $4,230.45</li>
+        <li><strong>CPP2</strong> applies between $73,200 and $81,900 — once your income crosses that threshold, CPP2 noticeably increases the total deduction on higher commission payments</li>
+        <li><strong>EI</strong> applies to insurable earnings up to $65,700; maximum employee premium is $1,123.07</li>
+        <li>This calculator shows the employee side only — your employer's matching CPP and EI contributions are not included in your result</li>
+      </ul>
+
+      <h3>TD1X Impact</h3>
+      <p>If you regularly spend on deductible employment expenses — vehicle use, home office, client costs — you can file a TD1X with your employer to reduce income tax withheld each period instead of waiting for a spring refund.</p>
+      <ul>
+        <li>TD1X reduces the income used to calculate income tax withholding; it does not reduce CPP or EI</li>
+        <li>The calculator shows what withholding looks like with and without a TD1X on file — it does not confirm whether CRA will accept your specific expense claims</li>
+        <li>Your actual deductible expenses still need to be supported when you file your T1</li>
+      </ul>
+    </div>
+
+    <!-- Why Your Result Looks Like This -->
+    <div class="info-section">
+      <h2>Why Your Result Looks Like This</h2>
+
+      <h3>The Annualization Effect</h3>
+      <p>Payroll software doesn't know your commission is a one-time payment. It takes the amount, multiplies it by your pay frequency, adds that to your salary, and uses the combined total to determine your tax bracket for the period.</p>
+      <p>A $10,000 commission on top of a $70,000 salary can briefly make payroll calculate withholding as if you earn much more annually — so the tax on that single cheque reflects brackets your actual full-year income may never reach.</p>
+
+      <h3>Why the Cheque Can Feel Over-Taxed</h3>
+      <p>Withholding is designed to protect against underpayment at year-end. The system takes more now rather than leaving you with a balance owing in April.</p>
+      <p>If the annualized calculation put you in a higher bracket than your real annual income warrants, that excess comes back as a refund when you file your T1. The money isn't gone — it's held until you reconcile at tax time.</p>
+
+      <h3>CPP2 Can Add a Noticeable Jump</h3>
+      <p>Once your income crosses the CPP2 threshold ($73,200 in 2026), a second layer of CPP contributions starts applying on top of CPP1. For employees who hit that threshold during a strong commission month, the total CPP deduction can increase noticeably — even if it hasn't appeared on a paycheque before that point.</p>
+      <p>CPP2 continues until you reach the annual maximum. It doesn't reset mid-year and it isn't affected by your income tax bracket.</p>
+
+      <h3>Why Two Similar Commissions Can Take Home Differently</h3>
+      <p>Withholding is recalculated every pay period based on your situation at that moment. Two commissions of the same amount, paid at different points in the year, can produce different net cheques because of:</p>
+      <ul>
+        <li>Year-to-date income — earlier in the year, less has accumulated, which can shift annualized bracket calculations</li>
+        <li>CPP and EI already paid — once you hit the annual maximums, those deductions stop for the remainder of the year</li>
+        <li>Cheque size — a larger commission pushes annualized income higher and can tip the calculation into the next bracket</li>
+        <li>Payroll timing — the number of remaining pay periods in the year affects how income is spread across the annualization formula</li>
+      </ul>
+    </div>
+
+    <!-- About / methodology -->
+    <div class="info-section">
+      <h2>Why Commission Feels Over-Taxed at Source</h2>
+      <p>Commission withholding feels aggressive because payroll rules force your employer to annualize the payment. They take your commission, multiply it by the number of pay periods per year, add the result to your annual salary, and use that total to determine your tax bracket. A $10,000 monthly commission on top of a $70,000 salary makes the CRA formula treat you as though you earn $190,000 — so the commission gets hit with the 29% federal bracket and 12.16% Ontario bracket even if you won't come close to that income for the year.</p>
+
+      <p>The result is almost always over-withholding at source. Any excess comes back when you file your T1 return in the spring. This calculator shows you the withholding on a single payment so you know exactly what to expect before the cheque lands.</p>
+
+      <p>If you regularly spend on deductible employment expenses — vehicle costs, home office, client meals, professional fees — filing Form TD1X with your employer lets them reduce the income tax withheld by those amounts. It doesn't change your annual tax bill. It moves cash back into your hands now instead of waiting for a spring refund. CPP and EI always apply to the full gross commission regardless.</p>
+
+      <div class="info-box">
+        <a href="https://calc-hq.ca/methodology/commission-tax/">Full methodology: Ontario Commission Tax Calculator – Calc-HQ.ca</a>
+      </div>
+    </div>
+
+  </div><!-- /content-col -->
+</main>
+
+<!-- ─── Footer ──────────────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="legal.html">Disclaimer</a>
+      <a href="terms.html">Terms of Use</a>
+    </div>
+    <div class="footer-col">
+      <h4>Related Tools</h4>
+      <a href="https://www.ontarioincometaxcalc.ca/" rel="noopener">Ontario Income Tax Calculator</a>
+      <a href="https://www.ontariotakehomecalc.ca/" rel="noopener">Ontario Take-Home Pay Calculator</a>
+      <a href="https://www.ontarioraisecalc.ca/" rel="noopener">Ontario Raise Calculator</a>
+      <a href="https://www.marginaltaxcalc.ca/" rel="noopener">Marginal Tax Calculator</a>
+    </div>
+    <div class="footer-col">
+      <h4>More Tools</h4>
+      <a href="https://calc-hq.ca/" rel="noopener">Calc-HQ.ca</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 OntarioCommissionTaxCalc.ca — Part of the <a href="https://calc-hq.ca/" rel="noopener">Calc-HQ.ca</a> network</span>
+    <span>For informational purposes only. Not tax advice.</span>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/calculator.js"></script>
+</body>
+</html>
