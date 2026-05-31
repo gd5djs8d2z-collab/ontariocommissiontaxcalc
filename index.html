@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +10,31 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍁</text></svg>" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Ontario Commission Tax Calculator",
+    "url": "https://www.ontariocommissiontaxcalc.ca",
+    "description": "Calculate federal and Ontario income tax withholding on commission payments for 2026. Includes CPP1, CPP2, EI, TD1X comparison, and marginal rate breakdown.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" },
+    "creator": { "@type": "Organization", "name": "OntarioCommissionTaxCalc.ca", "url": "https://www.ontariocommissiontaxcalc.ca" }
+  }
+  </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7744853829365165" crossorigin="anonymous"></script>
 </head>
 <body>
 
 <!-- ─── Header ─────────────────────────────────────────────────────────── -->
 <header class="site-header">
-  <div class="container">
-    <a href="index.html" class="logo">
-      <span class="logo-leaf" aria-hidden="true" style="font-size:1.25em;line-height:1">🍁</span><span>OntarioCommission<span style="font-weight:300">Tax</span>Calc.ca</span>
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">
+      <span class="logo-maple">🍁</span>
+      <span class="logo-text">OntarioCommission<span>Tax</span>Calc.ca</span>
     </a>
     <nav class="site-nav" aria-label="Main navigation">
       <a href="index.html" class="active">Home</a>
@@ -26,12 +42,24 @@
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
+<!-- Mobile nav overlay -->
+<div class="mobile-nav-overlay" id="mobile-overlay"></div>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="faq.html">FAQ</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
 <!-- ─── Hero ───────────────────────────────────────────────────────────── -->
 <section class="hero">
-  <div class="container">
+  <div class="hero-inner">
     <div class="hero-badge">🇨🇦 Ontario commission withholding calculator</div>
     <h1>Why Was So Much Tax Taken Off Your Commission?</h1>
     <p>A large commission cheque can make payroll treat that payment like it repeats all year. That can push withholding higher for this pay period, even if your final tax bill looks different at tax time.</p>
@@ -45,8 +73,20 @@
     <!-- Calculator card -->
     <div class="calc-card">
       <div class="calc-header">
+        <span class="calc-icon">📊</span>
         <h2>Commission Withholding — 2026</h2>
       </div>
+
+      <div class="trust-strip">
+        <span class="ts-item"><span>✓</span> <strong>2026</strong> CRA rates</span>
+        <span class="ts-sep">·</span>
+        <span class="ts-item"><span>✓</span> Federal + Ontario</span>
+        <span class="ts-sep">·</span>
+        <span class="ts-item"><span>✓</span> CPP1 + CPP2 + EI</span>
+        <span class="ts-sep">·</span>
+        <span class="ts-item"><span>✓</span> TD1X support</span>
+      </div>
+
       <div class="calc-body">
         <form id="calc-form" novalidate autocomplete="off">
 
@@ -162,24 +202,12 @@
       </div>
     </div><!-- /calc-card -->
 
-    <!-- Trust strip -->
-    <div class="disclaimers" role="note" aria-label="Methodology disclosure">
-      <p>This calculator follows CRA payroll withholding methodology for Ontario commission employees using 2026 federal, Ontario, CPP, CPP2, and EI rates.</p>
-      <strong>Methodology</strong>
-      <ul>
-        <li>Uses CRA T4127/T4032 payroll withholding methodology</li>
-        <li>Separates withholding from final annual tax liability</li>
-        <li>Calculates CPP1, CPP2, and EI independently</li>
-        <li>Supports TD1X withholding adjustment scenarios</li>
-        <li>Runs entirely in-browser — no stored financial data</li>
-      </ul>
-      <strong>Important notes:</strong>
-      <ul>
-        <li>This is a withholding estimate, not a final tax return estimate</li>
-        <li>Ontario Health Premium currently excluded</li>
-        <li>Employer CPP/EI portions not included</li>
-        <li>Commission annualization can temporarily inflate withholding relative to your actual annual tax</li>
-      </ul>
+    <!-- Ad unit -->
+    <div class="ad-unit ad-inactive" aria-hidden="true">
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-7744853829365165"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
     </div>
 
     <!-- Results -->
@@ -219,6 +247,14 @@
       </ul>
     </div>
 
+    <!-- Ad unit -->
+    <div class="ad-unit ad-inactive" aria-hidden="true">
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-7744853829365165"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+
     <!-- Why Your Result Looks Like This -->
     <div class="info-section">
       <h2>Why Your Result Looks Like This</h2>
@@ -245,6 +281,14 @@
       </ul>
     </div>
 
+    <!-- Ad unit -->
+    <div class="ad-unit ad-inactive" aria-hidden="true">
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-7744853829365165"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+
     <!-- About / methodology -->
     <div class="info-section">
       <h2>Why Commission Feels Over-Taxed at Source</h2>
@@ -264,39 +308,79 @@
 
 <!-- ─── Footer ──────────────────────────────────────────────────────────── -->
 <footer class="site-footer">
-  <div class="footer-grid">
-    <div class="footer-col">
-      <h4>Pages</h4>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="faq.html">FAQ</a>
-      <a href="contact.html">Contact</a>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">🍁 OntarioCommissionTaxCalc.ca</div>
+        <p>Ontario commission withholding calculations for 2026. All calculations run in your browser. No data stored.</p>
+      </div>
+      <div class="footer-col">
+        <h4>PAGES</h4>
+        <a href="index.html">Home</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>LEGAL</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="legal.html">Disclaimer</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+      <div class="footer-col">
+        <h4>RELATED TOOLS</h4>
+        <div id="related-tools"></div>
+        <a href="https://calc-hq.ca/" class="more-tools-link" rel="noopener"><strong>More Tools</strong> → Calc-HQ.ca</a>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="legal.html">Disclaimer</a>
-      <a href="terms.html">Terms of Use</a>
+    <div class="footer-bottom">
+      <span>© 2026 OntarioCommissionTaxCalc.ca — Part of the <a href="https://calc-hq.ca/" rel="noopener">Calc-HQ.ca</a> network</span>
+      <span>For informational purposes only. Not tax advice.</span>
     </div>
-    <div class="footer-col">
-      <h4>Related Tools</h4>
-      <a href="https://www.ontarioincometaxcalc.ca/" rel="noopener">Ontario Income Tax Calculator</a>
-      <a href="https://www.ontariotakehomecalc.ca/" rel="noopener">Ontario Take-Home Pay Calculator</a>
-      <a href="https://www.ontarioraisecalc.ca/" rel="noopener">Ontario Raise Calculator</a>
-      <a href="https://www.marginaltaxcalc.ca/" rel="noopener">Marginal Tax Calculator</a>
-    </div>
-    <div class="footer-col">
-      <h4>More Tools</h4>
-      <a href="https://calc-hq.ca/" rel="noopener">Calc-HQ.ca</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 OntarioCommissionTaxCalc.ca — Part of the <a href="https://calc-hq.ca/" rel="noopener">Calc-HQ.ca</a> network</span>
-    <span>For informational purposes only. Not tax advice.</span>
   </div>
 </footer>
 
 <script src="js/config.js"></script>
 <script src="js/calculator.js"></script>
+<script src="js/ads.js"></script>
+<script src="js/network.js"></script>
+
+<!-- Hamburger menu logic -->
+<script>
+(function() {
+  var hamburger = document.querySelector('.hamburger');
+  var mobileNav = document.getElementById('mobile-nav');
+  var overlay = document.getElementById('mobile-overlay');
+
+  function toggleMenu() {
+    var isOpen = hamburger.classList.toggle('active');
+    mobileNav.classList.toggle('active', isOpen);
+    overlay.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    mobileNav.classList.remove('active');
+    overlay.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  if (hamburger) {
+    hamburger.addEventListener('click', toggleMenu);
+  }
+  if (overlay) {
+    overlay.addEventListener('click', closeMenu);
+  }
+  // Close on nav link click
+  if (mobileNav) {
+    mobileNav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', closeMenu);
+    });
+  }
+})();
+</script>
 </body>
 </html>
