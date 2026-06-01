@@ -8,8 +8,7 @@
     { name: 'Marginal Tax Calculator', url: 'https://marginaltaxcalc.ca/', desc: 'Marginal vs effective rate comparison' },
     { name: 'CPP Calculator', url: 'https://cppcalc.ca/', desc: 'CPP1 + CPP2 contribution breakdown' },
     { name: 'EI Calculator', url: 'https://eicalc.ca/', desc: 'EI premium calculation' },
-    { name: 'Bonus Tax Calculator', url: 'https://bonustaxcalc.ca/', desc: 'Tax on bonus/lump-sum payments' },
-    { name: 'Freelance Income Calculator', url: 'https://freelanceincomecalc.ca/', desc: 'Self-employment tax estimates' }
+    { name: 'Bonus Tax Calculator', url: 'https://bonustaxcalc.ca/', desc: 'Tax on bonus/lump-sum payments' }
   ];
 
   var container = document.getElementById('related-tools');
